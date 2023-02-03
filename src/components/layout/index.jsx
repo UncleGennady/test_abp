@@ -2,6 +2,9 @@ import React from 'react';
 import {Routes, Route} from 'react-router-dom'
 import Header from "../header";
 import Home from '../../pages/home'
+import Variables from "../../pages/variables";
+import Variable from "../../pages/variable";
+
 const Layout = () => {
     return (
         <>
@@ -9,7 +12,8 @@ const Layout = () => {
             <main>
                 <Routes>
                     <Route path={'/'} element={<Home/>} />
-                    <Route path={'/variables'} element={<div>Variables</div>} />
+                    <Route path={'/variables'} element={<Variables/>} />
+                    <Route path={'/variables/:id'} element={<Variable/>} />
                     <Route path={'/*'} element={<div>Oops... page not found</div>} />
                 </Routes>
             </main>

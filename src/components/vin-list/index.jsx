@@ -1,8 +1,11 @@
 import React from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {setCurrentVin} from "../../store/slice/currentVinSlice";
+
 
 const VinList = () => {
     const vinList = useSelector(state => state.vin.value)
+    const dispatch = useDispatch()
     if(!vinList.length){
         return (
             <div>
@@ -12,7 +15,7 @@ const VinList = () => {
     }
     return (
         <ul>
-            {vinList.map((i,index)=>(<li key={index}>{i}</li>))}
+            {vinList.map((i,index)=>(<li key={index}><button onClick={()=>dispatch(setCurrentVin(i))}>{i}</button></li>))}
         </ul>
     );
 };
