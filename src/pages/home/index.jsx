@@ -1,33 +1,46 @@
-import React, {useState} from 'react';
+import React from 'react';
 import VinList from "../../components/vin-list";
 import ResultList from "../../components/result-list";
 import {useDispatch, useSelector} from "react-redux";
 import {addVin} from "../../store/slice/vinSlice";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
 
 const Home = () => {
     const initialState=''
-    const [vin, setVin] = useState(initialState);
     const currentVin = useSelector(state => state.currentVin.value)
     const dispatch = useDispatch()
 
-    const inputHandler = ({target}) =>{
-        setVin(target.value);
-    }
-    const formHandler = (e) => {
-        e.preventDefault()
-        dispatch(addVin(vin))
-        setVin(initialState)
-    }
     return (
         <div>
-            <form onSubmit={formHandler}>
-                <input type="text" value={vin} onChange={inputHandler} />
-                <button disabled={!vin || vin.trim().length !== 17}>
-                    add
-                </button>
-            </form>
-            <p>1FTFW1CT5DFC10312</p>
-            <p>JN1AZ4EH7DM430111</p>
+            <Formik
+                initialValues={{ vin:'' }}
+                validate={values => {
+                    const errors = {};
+                    if (!values.vin) {
+                        errors.vin = 'Required';
+                    } else if (
+                        !/^[A-HJ-NPR-Z0-9]{17}$/i.test(values.vin)
+                    ) {
+                        errors.vin = 'Invalid VIN ';
+                    }
+                    return errors;
+                }}
+                onSubmit={(values, { setSubmitting }) => {
+                        dispatch(addVin(values.vin))
+                        setSubmitting(false);
+                        values.vin = initialState
+                }}
+            >
+                {({ isSubmitting, values }) => (
+                    <Form>
+                        <Field type="text" placeholder="Vehicle identification number" name="vin" />
+                        <ErrorMessage name="vin" component="div" />
+                        <button type="submit" disabled={isSubmitting || values.vin.length!==17}>
+                            Add
+                        </button>
+                    </Form>
+                )}
+            </Formik>
             <VinList />
             {!!currentVin ? <ResultList /> : <div>Result list is empty</div>}
         </div>

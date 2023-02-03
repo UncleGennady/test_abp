@@ -19,8 +19,10 @@ const ResultList = () => {
                if(!!i["Value"]){
                 return(
                         <li key={i['VariableId']}>
-                                id:{i['VariableId']}
-                                <strong><Link to={`/variables/${i['VariableId']}`}>{i["Variable"]}:</Link></strong> {i["Value"]}
+                            <strong>
+                                <Link to={`/variables/${i['VariableId']}`}>{i["Variable"]}:</Link>
+                            </strong>
+                            {i["Value"]}
                         </li>
                     )
                }
