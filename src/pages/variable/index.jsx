@@ -1,6 +1,8 @@
 import React from 'react';
 import {useGetVehicleVariableListQuery} from "../../store/vinApi";
 import { useParams} from 'react-router-dom'
+import {createMarkup} from "../../utils";
+import{css} from "@emotion/css";
 
 const Variable = () => {
     const {id} = useParams()
@@ -10,15 +12,19 @@ const Variable = () => {
         console.log(variable)
         return (
             <>
-                <h2>Name: {variable['Name']}</h2>
+                <h2 className={css`
+                     color:#61dafb;
+                `}>{variable['Name']}</h2>
                 <p>Group name:  {variable['GroupName']}</p>
                 <p>ID: {variable['ID']}</p>
-                <div>Description: <p dangerouslySetInnerHTML={createMarkup(variable['Description'])} ></p></div>
+                <h4 className={css`
+                        color: #61dafb;
+                        `}>Description:</h4>
+                <div dangerouslySetInnerHTML={createMarkup(variable['Description'])} ></div>
             </>
         )
     };
     console.log(data)
-    const createMarkup= (value)=>({__html:value });
     if(isLoading){
         return (
             <div>
@@ -27,7 +33,10 @@ const Variable = () => {
         )
     }
     return (
-        <div>
+        <div className={css`
+                padding: 40px 0;
+                text-align: center;
+        `}>
             {renderVariable(data["Results"])}
         </div>
     );
