@@ -1,15 +1,26 @@
 import React from 'react';
 import {useGetVehicleVariableListQuery} from "../../store/vinApi";
-import { useParams} from 'react-router-dom'
+import { useParams, useNavigate} from 'react-router-dom'
 import {createMarkup} from "../../utils";
 import{css} from "@emotion/css";
+import ErrorComponent from "../../components/error-component";
 
 const Variable = () => {
     const {id} = useParams()
     const {data, isLoading} = useGetVehicleVariableListQuery()
+    const navigate = useNavigate();
+
     const renderVariable = (data) =>{
         const variable = data.find(i=> i["ID"] === +id)
-        console.log(variable)
+
+        if(!variable){
+            return (
+                <ErrorComponent>
+                    Oops... variable not found
+                </ErrorComponent>
+            )
+        }
+
         return (
             <>
                 <h2 className={css`
@@ -24,7 +35,7 @@ const Variable = () => {
             </>
         )
     };
-    console.log(data)
+
     if(isLoading){
         return (
             <div>

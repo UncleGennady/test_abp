@@ -38,7 +38,7 @@ const Home = () => {
                         values.vin = initialState
                 }}
             >
-                {({ isSubmitting, values }) => (
+                {({ values }) => (
                     <Form className={css`
                               padding-bottom:20px;
                               display: flex;
@@ -81,7 +81,7 @@ const Home = () => {
                           box-shadow: 0 0 8px 4px #61dafb;
                           }
                         `}
-                            type="submit" disabled={isSubmitting || values.vin.length!==17}>
+                            type="submit" disabled={!!values.vin.errors}>
                             Add
                         </button>
                     </Form>
