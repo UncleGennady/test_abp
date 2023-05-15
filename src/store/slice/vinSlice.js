@@ -8,14 +8,16 @@ export const vinSlice = createSlice({
     name: 'vin',
     initialState,
     reducers: {
-        addVin: ({value}, {payload}) =>{
-            value.unshift(payload)
-            if(value.length > 5) value.pop()
-        }
+        addVin: (state, { payload }) => {
+            state.value = [payload, ...state.value.slice(0, 4)];
+        },
+        addVins: (state, { payload }) => {
+            state.value = payload;
+        },
     },
 })
 
 
-export const { addVin } = vinSlice.actions
+export const { addVin, addVins } = vinSlice.actions
 
 export default vinSlice.reducer

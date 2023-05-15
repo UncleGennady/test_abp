@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {addVin} from "../../store/slice/vinSlice";
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { css } from '@emotion/css'
+import {localStorageKey, setInLocalStorage} from "../../model";
 
 
 const Home = () => {
@@ -34,6 +35,7 @@ const Home = () => {
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                         dispatch(addVin(values.vin))
+                        setInLocalStorage(localStorageKey, values.vin)
                         setSubmitting(false);
                         values.vin = initialState
                 }}
